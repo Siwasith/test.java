@@ -1,0 +1,93 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>X and O Game</title>
+  <style>
+    /* Add CSS styles for the game board */
+    #game-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      grid-gap: 10px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #e6e6e6;
+      border: 1px solid #ccc;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 48px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>X and O Game</h1>
+
+  <div id="game-board">
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+    <div class="cell"></div>
+  </div>
+
+  <script>
+    // Game state
+    let currentPlayer = 'X';
+    let gameEnded = false;
+    const cells = document.getElementsByClassName('cell');
+
+    // Add click event listeners to each cell
+    for (let i = 0; i < cells.length; i++) {
+      cells[i].addEventListener('click', handleMove);
+    }
+
+    // Handle a player's move
+    function handleMove() {
+      if (gameEnded || this.textContent !== '') {
+        return;
+      }
+
+      this.textContent = currentPlayer;
+      this.classList.add(currentPlayer === 'X' ? 'x' : 'o');
+      checkWin();
+      togglePlayer();
+    }
+
+    // Check if a player has won
+    function checkWin() {
+      const winningCombinations = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8], // Rows
+        [0, 3, 6], [1, 4, 7], [2, 5, 8], // Columns
+        [0, 4, 8], [2, 4, 6]              // Diagonals
+      ];
+
+      for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (
+          cells[a].textContent === currentPlayer &&
+          cells[b].textContent === currentPlayer &&
+          cells[c].textContent === currentPlayer
+        ) {
+          gameEnded = true;
+          alert('Player ' + currentPlayer + ' wins!');
+          break;
+        }
+      }
+    }
+
+    // Toggle the current playerrrrrrr
+    function togglePlayer() {
+      currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+    }
+  </script>
+</body>
+</html>
